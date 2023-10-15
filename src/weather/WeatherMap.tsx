@@ -1,4 +1,5 @@
 import "leaflet/dist/leaflet.css";
+import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import L from 'leaflet';
 
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
@@ -6,9 +7,9 @@ import { coordinate } from "./Home";
 
 function WeatherMap({ coord: {lat, lon} }: Props) {
     const mapIcon = L.icon({
-        iconUrl: 'src\\assets\\map_icon.png',
-        iconSize: new L.Point(41, 41),
-        iconAnchor: [20.5, 20.5 + 22]
+        iconUrl: markerIconPng,
+        iconSize: [25, 41], 
+        iconAnchor: [12, 41],
     })
 
     return(
