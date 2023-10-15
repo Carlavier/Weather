@@ -3,19 +3,24 @@ import { createContext, useState } from "react";
 
 import SearchBox from "./SearchBox";
 import WeatherCard from "./WeatherCard";
+import WeatherMap from "./WeatherMap";
 
 export const CountryContext = createContext<countryAPI>({} as countryAPI);
 
 function Home() {
-    const apiKey = "15dbfeb21048c6f5646c40aab5f1364a";
+    const apiKey = {
+        openWeather: "15dbfeb21048c6f5646c40aab5f1364a",
+        here: "NhZXyRA-iIOrFL9Z8xwPUjl0jQ71uezRwkawr0ATeUM",
+    };
     const [country, setCountry] = useState("");
     const value: countryAPI = {country, setCountry};
 
     const {data: coord} = useQuery({
         queryFn: () => 
-            fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${country}&limit=5&appid=${apiKey}`)
+            fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${country}&limit=5&appid=${apiKey.openWeather}`)
             .then(res => res.json())
             .then(data => {
+                setCountry
                 return {
                     lat: data[0].lat,
                     lon: data[0].lon, 
@@ -24,12 +29,12 @@ function Home() {
         queryKey: ["coord", country],
         refetchOnWindowFocus: false,
     });
-    console.log(coord);
+    // console.log(coord);
 
     // const lat = 51.5073219, lon = -0.1276474;
     const {data: weather} = useQuery({
         queryFn: () => 
-            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coord?.lat}&lon=${coord?.lon}&appid=${apiKey}`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coord?.lat}&lon=${coord?.lon}&appid=${apiKey.openWeather}`)
             .then(res => res.json())
             .then(data => {
                 return {
@@ -44,12 +49,13 @@ function Home() {
         refetchOnWindowFocus: false,
         // useLazyQuery?
     });
-    console.log(weather);
+    // console.log(weather);
 
     return (
         <CountryContext.Provider value={value}>
             <SearchBox />
-            {(weather && <WeatherCard weather={weather}/>)}
+            { coord && <WeatherMap coord={coord}/> }
+            { weather && <WeatherCard weather={weather}/> }
         </CountryContext.Provider>
     );
 }
@@ -61,7 +67,7 @@ interface countryAPI {
     setCountry: Function,
 }
 
-interface coordinate {
+export interface coordinate {
     lat: number,
     lon: number,
 }
