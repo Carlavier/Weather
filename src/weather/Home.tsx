@@ -27,7 +27,7 @@ function Home() {
     console.log(coord);
 
     // const lat = 51.5073219, lon = -0.1276474;
-    const {data: weather, isLoading} = useQuery({
+    const {data: weather} = useQuery({
         queryFn: () => 
             fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coord?.lat}&lon=${coord?.lon}&appid=${apiKey}`)
             .then(res => res.json())
