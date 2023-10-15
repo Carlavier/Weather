@@ -13,7 +13,7 @@ function Home() {
 
     const {data: coord} = useQuery({
         queryFn: () => 
-            fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${country}&limit=5&appid=${apiKey}`)
+            fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${country}&limit=5&appid=${apiKey}`)
             .then(res => res.json())
             .then(data => {
                 return {
