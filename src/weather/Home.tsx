@@ -54,7 +54,7 @@ function Home() {
     return (
         <CountryContext.Provider value={value}>
             <SearchBox />
-            asdasd
+            
             { coord && <WeatherMap coord={coord}/> }
             { weather && <WeatherCard weather={weather}/> }
         </CountryContext.Provider>
